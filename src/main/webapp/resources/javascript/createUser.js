@@ -58,10 +58,6 @@ var createUser = function() {
         				COMMAN_METHOD.appendMessageToElement("passwordMessage", MESSAGE_CONSTANT.MESSAGE_PASSWORD_LESS_THAN_SIX_CHARACTERS);
         				isErrorOccurred = true;
         			}
-    				else if(password.length > 15){
-        				COMMAN_METHOD.appendMessageToElement("passwordMessage", MESSAGE_CONSTANT.MESSAGE_PASSWORD_GREATER_THAN_FIFTEEN_CHARACTERS);
-        				isErrorOccurred = true;
-        			}
     				if(!COMMAN_METHOD.isValidEmailAddress(email)){
     					COMMAN_METHOD.appendMessageToElement("emailMessage", MESSAGE_CONSTANT.MESSAGE_ENTER_VALID_EMAIL);
         				isErrorOccurred = true;

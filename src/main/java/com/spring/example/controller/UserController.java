@@ -11,13 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.example.persistence.model.Role;
 import com.spring.example.persistence.model.User;
@@ -48,7 +48,16 @@ public class UserController {
 	
 	@RequestMapping(value = "/createUser.htm", method = RequestMethod.GET)
 	public String redirectCreateUserPage(ModelMap users) {
-		users.addAttribute("user", new User());
+		/*Added condition because when there is error in data while post request in createUser()
+		* we added the user object received in createUser() bindingResult.hasErrors() 
+		* and redirected to this method and it was overriding that attribute so error messages were 
+		* not displayed on jsp page.
+		*/
+		
+		if (!users.containsAttribute("user")) {
+			users.addAttribute("user", new User());
+		}
+		
 		users.addAttribute("role", new Role());
 		Map<String,String> roleMap = roleService.getAllRole();
 		users.addAttribute("roleMap", roleMap);
@@ -56,13 +65,16 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/createUser.htm", method = RequestMethod.POST)
-	public String createUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
-		System.out.println("============== firstname val ========== " + user.getFirstName());
-		System.out.println("============== firstname length ========== " + user.getFirstName().length());
+	public String createUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors()) {
-            return "createUser";
+			redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.user", bindingResult);
+			redirectAttributes.addFlashAttribute("user", user);
+            return "redirect:/createUser.htm";
         }
 		user = userService.setUserAccountAccessControl(user);
+		user.setEmail(user.getEmail().trim());
+		user.setFirstName(user.getFirstName().trim());
+		user.setLastName(user.getLastName().trim());
 		userService.create(user);
 		return "redirect:/createUser.htm";
 	}

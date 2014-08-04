@@ -57,6 +57,7 @@
 							<form:input path="email" type="email" class="form-control"
 								id="email" placeholder="${email}" value="" />
 							<span class="help-inline  errorMessage" id="emailMessage" value=""></span>
+							<form:errors path="email" cssClass="help-inline  errorMessage" />
 						</div>
 					</div>
 					<div class="form-group required">
@@ -66,6 +67,7 @@
 							<form:input path="password" type="password" class="form-control"
 								id="password" placeholder="${password}" value="" />
 							<span class="help-inline  errorMessage" id="passwordMessage" value=""></span>
+							<form:errors path="password" cssClass="help-inline  errorMessage" />
 						</div>
 					</div>
 					<div class="form-group required">
@@ -79,6 +81,7 @@
 								<form:options items="${roleMap}" />
 							</form:select>
 							<span class="help-inline  errorMessage" id="roleMessage" value=""></span>
+							<form:errors path="role" cssClass="help-inline  errorMessage" />
 						</div>
 					</div>
 					<div class="form-group">

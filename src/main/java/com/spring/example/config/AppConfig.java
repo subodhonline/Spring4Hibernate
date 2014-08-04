@@ -13,8 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
-import com.spring.example.form.validator.CreateUserValidator;
-
 
 @Configuration
 @EnableAspectJAutoProxy
@@ -33,11 +31,6 @@ public class AppConfig {
 	@Bean
     public PasswordEncoder passwordEncoder() {
 	    return new BCryptPasswordEncoder();
-	}
-	
-	@Bean
-    public CreateUserValidator createUserValidator() {
-	    return new CreateUserValidator();
 	}
 	
 	//Uncomment if Aspectj is needed in application
