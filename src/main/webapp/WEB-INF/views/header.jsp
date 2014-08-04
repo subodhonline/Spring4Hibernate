@@ -16,6 +16,12 @@
 									value="${_csrf.token}" />
 							</form></li>
 						<li><a href="/listUser.htm"  class="btn btn-link">User Management</a></li>
+						<li>
+						<a href="?lang=en">English</a> 
+    					<a href="?lang=fr">French</a>
+							<!-- <input type="radio" name="english" value="English" onclick="window.open('?lang=en')" />
+							<input type="radio" name="french" value="French" onclick="window.open('?lang=fr')" />  -->
+						</li>
 					</ul></li>
 			</ul>
 			</li>

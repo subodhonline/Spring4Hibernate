@@ -16,5 +16,11 @@ var COMMAN_METHOD = {
 	clearElementValue : function(elementId){
 		$("#" + elementId).text("");
 	},
+	
+	isValidName : function(inputText){
+		var pattern = new RegExp(REGEX_CONSTANT.NAME);
+		console.log(pattern.test(inputText))
+		return pattern.test(inputText);
+	},
 };
  

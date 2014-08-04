@@ -10,7 +10,7 @@ var createUser = function() {
 
     privateMethod = {
     	attachEventHandler : function(){
-    		/*$( "#submit" ).click(function() {
+    		$( "#submit" ).click(function() {
     			COMMAN_METHOD.clearElementValue("firstNameMessage");
     			COMMAN_METHOD.clearElementValue("lastNameMessage");
     			COMMAN_METHOD.clearElementValue("emailMessage");
@@ -46,11 +46,11 @@ var createUser = function() {
     			}
     			
     			if(!isErrorOccurred){
-    				if(COMMAN_METHOD.isContainsSpecialCharacter(firstName)){
+    				if(!COMMAN_METHOD.isValidName(firstName)){
     					COMMAN_METHOD.appendMessageToElement("firstNameMessage", MESSAGE_CONSTANT.MESSAGE_SPECIAL_CHARACTER_NOT_ALLOWED);
         				isErrorOccurred = true;
     				}
-    				if(COMMAN_METHOD.isContainsSpecialCharacter(lastName)){
+    				if(!COMMAN_METHOD.isValidName(lastName)){
     					COMMAN_METHOD.appendMessageToElement("lastNameMessage", MESSAGE_CONSTANT.MESSAGE_SPECIAL_CHARACTER_NOT_ALLOWED);
         				isErrorOccurred = true;
     				}
@@ -63,18 +63,27 @@ var createUser = function() {
         				isErrorOccurred = true;
     				}
     			}
-    			
-			});*/
+    		   if(!isErrorOccurred){
+    			   $("#createUserForm").submit();
+    		   }
+    		   else{
+    			   return false;
+    		   }
+			});
     		
-    		$( "#submit" ).click(function() {
-    			$("#createUserForm").submit();
-    		});
+    	},
+    	
+    	displayMessages : function(){
+    		if($("#successMessage").val().length > 0){
+    			$().toastmessage('showSuccessToast', $("#successMessage").val());
+    		}
     	},
     };
 
     return{
         init: function() {
         	privateMethod.attachEventHandler();
+        	privateMethod.displayMessages();
         }
     };
 };

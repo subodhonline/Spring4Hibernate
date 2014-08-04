@@ -12,6 +12,8 @@
 	href="<c:url value='/resources/css/bootstrap.min.css'/>" />
 <link rel="stylesheet" type="text/css"
 	href="<c:url value='/resources/css/style.css'/>" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value='/resources/css/jquery.toastmessage.css'/>" />
 <script src="<c:url value="/resources/javascript/jquery-2.1.1.js"/>"></script>
 <script
 	src="<c:url value="/resources/javascript/jquery-ui-1.10.4.min.js"/>"></script>
@@ -19,6 +21,7 @@
 <script src="<c:url value="/resources/javascript/constant.js"/>"></script>
 <script src="<c:url value="/resources/javascript/comman.js"/>"></script>
 <script src="<c:url value="/resources/javascript/createUser.js"/>"></script>
+<script src="<c:url value="/resources/javascript/jquery.toastmessage.js"/>"></script>
 </head>
 <body>
 	<jsp:include page="header.jsp" />
@@ -26,7 +29,10 @@
 		<div class="row">
 
 			<div class="col-md-10">
-
+			<input type="text" id="successMessage" value="${successMessage}" style="display: none;"/>
+				<%-- <c:if test="${!empty successMessage}">
+					<div id="successMessage" value="${successMessage}"></div>
+				</c:if> --%>
 				<form:form id="createUserForm" method="post" action="createUser.htm"
 					commandName="user" class="form  form-horizontal" role="form">
 					<div class="form-group required">

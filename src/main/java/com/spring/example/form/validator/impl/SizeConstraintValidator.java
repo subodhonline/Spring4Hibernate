@@ -7,15 +7,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.spring.example.form.validator.EmailExistsConstraint;
-import com.spring.example.persistence.model.User;
+import com.spring.example.form.validator.SizeConstraint;
 import com.spring.example.service.IUserService;
 
+public class SizeConstraintValidator implements ConstraintValidator<SizeConstraint, String> {
 
-public class EmailExistsConstraintValidator implements ConstraintValidator<EmailExistsConstraint, String> {
+	private static final Logger logger = LoggerFactory.getLogger(SizeConstraintValidator.class);
 
-	private static final Logger logger = LoggerFactory.getLogger(EmailExistsConstraintValidator.class);
-
+	private int min = 0;
+	private int max = 0;
+	
 	@Autowired
 	private IUserService userService;
 
@@ -23,13 +24,8 @@ public class EmailExistsConstraintValidator implements ConstraintValidator<Email
 	public boolean isValid(String target, ConstraintValidatorContext context) {
 
 		try {
-			if(target != null && target.length() > 0){
-				if(userService != null){
-					User user = userService.getUserById(target);
-					if (user != null) {
-						return false;
-					}
-				}
+			if(target.trim().length() < min || target.trim().length() > max){
+				return false;
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -40,8 +36,9 @@ public class EmailExistsConstraintValidator implements ConstraintValidator<Email
 
 
 	@Override
-	public void initialize(EmailExistsConstraint arg0) {
-		
+	public void initialize(SizeConstraint sizeConstraint) {
+		min = sizeConstraint.min();
+		max = sizeConstraint.max();
 	}
 
 }

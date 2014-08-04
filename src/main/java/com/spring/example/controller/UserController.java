@@ -1,6 +1,7 @@
 package com.spring.example.controller;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -8,6 +9,8 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -35,6 +38,12 @@ public class UserController {
 	@Autowired
 	private IRoleService roleService;
 	
+	@Autowired
+	private Environment environment;
+	
+	@Autowired
+	ReloadableResourceBundleMessageSource messageSource;
+	
 	@RequestMapping(value = "/listUser.htm", method = RequestMethod.GET)
 	public String listUsers(ModelMap users) {
 		users.addAttribute("userCount", userService.findRecordsCount());
@@ -47,13 +56,12 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/createUser.htm", method = RequestMethod.GET)
-	public String redirectCreateUserPage(ModelMap users) {
+	public String redirectCreateUserPage(ModelMap users,Locale locale) {
 		/*Added condition because when there is error in data while post request in createUser()
 		* we added the user object received in createUser() bindingResult.hasErrors() 
 		* and redirected to this method and it was overriding that attribute so error messages were 
 		* not displayed on jsp page.
 		*/
-		
 		if (!users.containsAttribute("user")) {
 			users.addAttribute("user", new User());
 		}
@@ -65,7 +73,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/createUser.htm", method = RequestMethod.POST)
-	public String createUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+	public String createUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, RedirectAttributes redirectAttributes,Locale locale) {
 		if (bindingResult.hasErrors()) {
 			redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.user", bindingResult);
 			redirectAttributes.addFlashAttribute("user", user);
@@ -76,6 +84,7 @@ public class UserController {
 		user.setFirstName(user.getFirstName().trim());
 		user.setLastName(user.getLastName().trim());
 		userService.create(user);
+		redirectAttributes.addFlashAttribute("successMessage", messageSource.getMessage("user.added.successfully", null,locale));
 		return "redirect:/createUser.htm";
 	}
 	

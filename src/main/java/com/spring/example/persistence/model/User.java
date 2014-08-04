@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
@@ -20,6 +21,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.spring.example.form.validator.EmailExistsConstraint;
 import com.spring.example.form.validator.SelectValueConstraint;
+import com.spring.example.form.validator.SizeConstraint;
 
 
 @Entity
@@ -43,12 +45,14 @@ public class User implements Serializable{
 	private long id;
 
 	@NotEmpty
-	@Size(min=2, max=50)
+	@SizeConstraint(min=2, max=50)
+	@Pattern(regexp = "^[\\p{L} .'-]+$")
 	@Column(name = "first_name")
 	private String firstName;
 	
 	@NotEmpty
-	@Size(min=2, max=50)
+	@SizeConstraint(min=2, max=50)
+	@Pattern(regexp = "^[\\p{L} .'-]+$")
 	@Column(name = "last_name")
 	private String lastName;
 	
