@@ -32,17 +32,34 @@ public class UserController {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
-	@Autowired
+/*	@Autowired
 	private IUserService userService;
 	
 	@Autowired
 	private IRoleService roleService;
 	
 	@Autowired
-	private Environment environment;
+	private Environment environment;*/
+	
+	private final IUserService userService;
+	private final IRoleService roleService;
+	private final Environment environment;
+	private final ReloadableResourceBundleMessageSource messageSource;
+	
+	/* This construtor type autowiring create a problem when we try to add user for validation. */
+	/* If anybody find any solution please provide me on ajaysoni98292@gmail.com */
 	
 	@Autowired
-	ReloadableResourceBundleMessageSource messageSource;
+	public UserController(IUserService userService,IRoleService roleService,Environment environment,ReloadableResourceBundleMessageSource messageSource) {
+		this.userService=userService;
+		this.roleService=roleService;
+		this.environmetn=environment;
+		this.messageSoruce=messageSource;
+	}
+	
+	
+/*	@Autowired
+	ReloadableResourceBundleMessageSource messageSource;*/
 	
 	@RequestMapping(value = "/listUser.htm", method = RequestMethod.GET)
 	public String listUsers(ModelMap users) {
